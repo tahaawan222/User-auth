@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+    <div style="text-align: center;">
+        <h1>Welcome to the Homepage!</h1>
+        
+        <p>
+            Your session will time out in: <span id="timer">10</span> seconds
+        </p>
+
+        <p>
+            (This is a simulated session timeout for demonstration purposes.)
+        </p>
+    </div>
+
+    <script>
+        // --- Configuration ---
+        // Set your desired timeout here (e.g., 10s for quick testing, 60s for real use)
+        const TIMEOUT_SECONDS = 10; 
+        
+        // Your login page URL (which is your root path "/")
+        const LOGOUT_REDIRECT_URL = "/"; 
+        // ---------------------
+
+        let remainingSeconds = TIMEOUT_SECONDS;
+        const timerDisplay = document.getElementById('timer');
+
+        function updateTimerAndCheck() {
+            remainingSeconds--;
+            
+            // Update the display
+            timerDisplay.textContent = remainingSeconds;
+
+            if (remainingSeconds <= 0) {
+                // 1. Stop the countdown
+                clearInterval(timerInterval); 
+                
+                // 2. Log the action (optional)
+                console.log("Session timed out. Redirecting to login page.");
+                
+                // 3. Redirect the user
+                window.location.href = LOGOUT_REDIRECT_URL; 
+            }
+        }
+
+        // Start the timer: call updateTimerAndCheck() every 1000 milliseconds (1 second)
+        const timerInterval = setInterval(updateTimerAndCheck, 1000);
+    </script>
+</body>
+</html>
