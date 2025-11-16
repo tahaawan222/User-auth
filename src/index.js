@@ -2,8 +2,7 @@
 
 const express = require("express");
 const path = require("path");
-// MODIFIED: Destructure the exported items
-const { connectToDatabase, collection } = require("./config"); 
+const { connectToDatabase, collection } = require("./config");
 const bcrypt = require('bcrypt');
 
 const app = express();
@@ -37,8 +36,6 @@ app.post("/signup", async (req, res) => {
         return res.status(500).send("Server Error: Database connection failed.");
     }
     
-    // ... rest of your existing signup logic ...
-    
     const data = {
         name: req.body.username,
         password: req.body.password
@@ -57,8 +54,9 @@ app.post("/signup", async (req, res) => {
 
             data.password = hashedPassword; // Replace the original password with the hashed one
 
-            const userdata = await collection.insertMany(data);
-            console.log(userdata);
+            // CORRECTED: Use .create() instead of .insertMany() for single document insertion
+            const userdata = await collection.create(data); 
+            console.log("New user created:", userdata);
 
             res.redirect("/");
         }
@@ -78,30 +76,29 @@ app.post("/login", async (req, res) => {
         return res.status(500).send("Server Error: Database connection failed.");
     }
     
-    // ... rest of your existing login logic ...
-    
     try {
         const check = await collection.findOne({ name: req.body.username });
         if (!check) {
             res.send("User name cannot found")
         }
         // Compare the hashed password from the database with the plaintext password
-        const isPasswordMatch = await bcrypt.compare(req.body.password, check.password);
-        if (!isPasswordMatch) {
-            res.send("wrong Password");
-        }
-        else {
-            res.render("home");
+        else { // Added an 'else' block to handle the case where the user is found
+            const isPasswordMatch = await bcrypt.compare(req.body.password, check.password);
+            if (!isPasswordMatch) {
+                res.send("wrong Password");
+            }
+            else {
+                res.render("home");
+            }
         }
     }
     catch (err) {
         console.error("Login DB operation failed:", err);
-        res.send("wrong Details"); // Or a more specific error
+        // Ensure that if 'check' is null (user not found), you don't access check.password
+        // The logic above handles this, but a generic error catch is here too.
+        res.send("wrong Details"); 
     }
 });
-
-
-// REMOVED: app.listen should be modified for Vercel
 
 // Vercel Entry Point (Crucial for Vercel deployment)
 // Vercel uses this to start your Express app
