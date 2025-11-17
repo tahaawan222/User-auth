@@ -1,97 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Sign Up</title>
+    <title>Sign Up | Responsive Auth</title>
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Load Boxicons for icons -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <style>
-        /* CSS Variables from home/login for consistency */
-        :root {
-            --color-dark-bg: #101014;
-            --color-card-bg: #1e1e24;
-            --color-purple-primary: #8a2be2; /* Blue Violet */
-            --color-neon-purple: #c471ed; /* Lighter Neon */
-            --color-link-light: #d6b8f5;
-        }
-
-        /* Custom styles for the purple gradient and dynamic background */
+        /* Custom styles for the purple gradient and subtle floating effect */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
         
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--color-dark-bg); /* Using variable for consistency */
+            background-color: #1a1a2e; /* Deep space blue background */
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             padding: 1rem;
-            overflow: hidden; 
-            position: relative;
         }
 
-        /* Keyframes for the Subtle Background Animation (Matches login.html) */
-        @keyframes subtleMove {
-            0% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(60px, -60px) scale(1.1); } /* Updated movement */
-            100% { transform: translate(0, 0) scale(1); }
-        }
-
-        /* NEW: Static, massive blurred gradient layer for deep atmosphere (Matches login.html) */
-        .bg-fixed-gradient {
-            position: fixed; 
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            /* Massive, highly transparent radial gradient */
-            background: radial-gradient(circle at 75% 10%, var(--color-neon-purple) 0%, transparent 20%),
-                        radial-gradient(circle at 25% 90%, var(--color-purple-primary) 0%, transparent 30%);
-            filter: blur(150px); 
-            z-index: 0;
-            opacity: 0.3; 
-        }
-
-        /* UPDATED: Animated Background Element (Matches login.html) */
-        .bg-moving-dots {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 200%;
-            height: 200%;
-            /* Smaller, less opaque circles for a "star" or "particle" effect */
-            background: radial-gradient(circle at 15% 5%, rgba(255, 255, 255, 0.1) 1%, transparent 5%),
-                        radial-gradient(circle at 85% 95%, rgba(255, 255, 255, 0.08) 1%, transparent 7%),
-                        radial-gradient(circle at 40% 60%, rgba(196, 113, 237, 0.2) 1%, transparent 10%);
-            animation: subtleMove 50s infinite alternate; 
-            z-index: 1; 
-        }
-        
-        /* Ensure card sits above the background and gets a glass effect (Matches login.html) */
-        #auth-container {
-            z-index: 10; 
-            position: relative;
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-        }
-
-        /* Custom glow for the main card (Matches login.html intensity) */
-        .card-glow {
-            box-shadow: 0 0 40px rgba(138, 43, 226, 0.8), 
-                        0 0 100px rgba(138, 43, 226, 0.3);
-            border: 1px solid rgba(138, 43, 226, 0.3); 
-        }
-
-        /* Input field custom styling - Matched focus color to variable */
+        /* Input field custom styling to match the image */
         .input-box {
             position: relative;
             width: 100%;
             height: 50px;
+            margin: 30px 0;
         }
 
         .input-box input {
@@ -108,7 +44,7 @@
 
         .input-box input:focus,
         .input-box input:valid {
-            border-bottom-color: var(--color-neon-purple); /* Used variable */
+            border-bottom-color: #8c52ff;
         }
 
         .input-box label {
@@ -125,7 +61,7 @@
         .input-box input:valid ~ label {
             top: -5px;
             font-size: 0.8rem;
-            color: var(--color-neon-purple); /* Used variable */
+            color: #8c52ff;
         }
 
         .input-box .bx {
@@ -140,102 +76,62 @@
 </head>
 
 <body>
-    <!-- NEW: Static, blurred gradient element for depth (Matches login.html) -->
-    <div class="bg-fixed-gradient"></div>
-    <!-- NEW: Animated Background Element for moving particles/dots (Matches login.html) -->
-    <div class="bg-moving-dots"></div>
+    <!-- Main Container (The Card) -->
+    <div id="auth-container" class="bg-gray-800 rounded-3xl shadow-2xl p-0 overflow-hidden 
+                                  w-full max-w-sm md:max-w-4xl 
+                                  flex flex-col md:flex-row transition-all duration-500">
 
-    <!-- Main Container (Updated classes for consistency with login.html) -->
-    <div id="auth-container" class="bg-[var(--color-card-bg)] rounded-2xl p-8 md:p-12 
-                                  w-full max-w-md transition-all duration-500 card-glow bg-opacity-80">
-        
-        <!-- Signup Icon -->
-        <div class="flex justify-center mb-6">
-            <i class='bx bxs-user-plus text-6xl text-purple-400 opacity-80'></i>
-        </div>
-
-        <h2 class="text-3xl font-bold text-white mb-8 text-center">Create Account</h2>
-        
-        <!-- Updated to space-y-8 for more responsive vertical spacing -->
-        <form action="/signup" method="post" class="space-y-8">
+        <!-- Left Side: Sign Up Form -->
+        <div class="form-box w-full md:w-1/2 p-8 md:p-12 order-2 md:order-1 flex flex-col justify-center">
+            <h2 class="text-3xl font-bold text-white mb-6 text-center">Sign Up</h2>
             
-            <!-- Username Input -->
-            <div class="input-box">
-                <input type="text" id="name" name="username" required autocomplete="off">
-                <label for="name">Username</label>
-                <i class='bx bxs-user'></i>
-            </div>
-
-            <!-- Password Input -->
-            <div class="input-box">
-                <input type="password" id="password" name="password" required>
-                <label for="password">Password</label>
-                <i class="bx bxs-lock-alt"></i>
-            </div>
-            
-            <!-- Submit Button (Matches login.html) -->
-            <button type="submit" class="w-full h-12 rounded-xl text-white font-semibold 
-                                        bg-gradient-to-r from-purple-500 to-indigo-600 
-                                        hover:from-purple-600 hover:to-indigo-700 transition-all duration-300
-                                        shadow-lg shadow-purple-500/70 hover:scale-[1.02] transform">
-                Sign Up
-            </button>
-            
-            <!-- Login Link -->
-            <div class="regi-link text-center pt-4">
-                <p class="text-sm text-gray-400">Already have an account?
-                    <a class="font-medium text-purple-400 hover:text-purple-300 transition-colors" href="/">Log In</a>
-                </p>
-            </div>
-        </form>
-    </div>
-    
-    <!-- Script tag for your Node.js application logic -->
-    <script src="/index.js"></script> 
-=======
-    <title>SignUp</title>
-    <link rel="icon" type="image/png" href="/favicon.png">
-    <link rel="stylesheet" href="/style.css">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-</head>
-
-<body>
-    <div class="container">
-        <div class="curved-shape"></div> 
-        
-        <div class="form-box Login"> <h2>SignUp</h2>
-            <form action="/signup" method="post">
+            <form action="/signup" method="post" class="space-y-4">
                 
+                <!-- Username Input -->
                 <div class="input-box">
                     <input type="text" id="name" name="username" required autocomplete="off">
                     <label for="name">Username</label>
                     <i class='bx bxs-user'></i>
                 </div>
 
+                <!-- Password Input -->
                 <div class="input-box">
                     <input type="password" id="password" name="password" required>
                     <label for="password">Password</label>
                     <i class="bx bxs-lock-alt"></i>
                 </div>
                 
-                <div class="input-box">
-                    <button type="submit" class="btn">Submit</button>
-                </div>
+                <!-- Submit Button -->
+                <button type="submit" class="w-full h-12 mt-6 rounded-xl text-white font-semibold 
+                                            bg-gradient-to-r from-purple-500 to-indigo-600 
+                                            hover:from-purple-600 hover:to-indigo-700 transition-all 
+                                            shadow-lg shadow-purple-500/50">
+                    Submit
+                </button>
                 
-                <div class="regi-link">
-                    <p>Already have an account?<a class="SignUpLink" href="/">Login</a>
+                <!-- Login Link -->
+                <div class="regi-link text-center pt-4">
+                    <p class="text-sm text-gray-400">Already have an account?
+                        <a class="font-medium text-purple-400 hover:text-purple-300 transition-colors" href="/">Login</a>
                     </p>
                 </div>
             </form>
         </div>
         
-        <div class="info-content Login">
-            <h2>CREATE YOUR ACCOUNT</h2>
-            <p>Enter your personal details to start your journey with us.</p>
+        <!-- Right Side: Info Content -->
+        <div class="info-content w-full md:w-1/2 p-12 order-1 md:order-2 
+                    bg-gradient-to-br from-purple-700 to-indigo-900 text-white 
+                    flex flex-col justify-center items-center text-center">
+            
+            <i class='bx bxs-group text-6xl mb-4 opacity-80'></i>
+            <h2 class="text-3xl font-extrabold mb-3">WELCOME!</h2>
+            <p class="text-gray-200 text-lg">Enter your personal details to start your journey with us and access exclusive features.</p>
         </div>
 
     </div>
-    <script src="index.js"></script>
-
+    
+    <!-- Script tag for your Node.js application logic -->
+    <!-- NOTE: This client-side file must exist in your 'public' folder for this to work -->
+    <script src="/index.js"></script> 
 </body>
 </html>
